@@ -1,16 +1,16 @@
 import React from 'react';
 import axios from 'axios';
-import Info from './Info';
-import AppContext from '../context';
+import Info from '../Info';
+import { useCart } from '../../hooks/useCart';
+import styles from './Drawer.module.scss';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Drawer({onClose, items = [], onRemove}) {
-
-  const { cartItems, setCartItems } = React.useContext(AppContext);
+function Drawer({onClose, items = [], onRemove, opened}) {
+  const { cartItems, setCartItems, totalPrice } = useCart();
   const [orderId, setOrderId] = React.useState(null);
   const [isOrederComplete, setIsOrderComplete] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);  
 
   const onClickOrder = async () => {
     try {
@@ -35,8 +35,8 @@ function Drawer({onClose, items = [], onRemove}) {
   }
 
   return (
-    <div className="overlay">
-      <div className="drawer d-flex flex-column">
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+      <div className={`${styles.drawer} d-flex flex-column`}>
         <h2 className="mb-30 d-flex justify-between">
           Корзина
           <img src="/img/btn-remove.svg" alt="Close" className="removeBtn cu-p" onClick={onClose} />
@@ -63,12 +63,12 @@ function Drawer({onClose, items = [], onRemove}) {
                   <li className="d-flex">
                     <span>Итого:</span>
                     <div></div>
-                    <b>21 498 руб.</b>
+                    <b>{totalPrice} руб.</b>
                   </li>
                   <li className="d-flex">
                     <span>Налог 5%:</span>
                     <div></div>
-                    <b>1074 руб.</b>
+                    <b>{totalPrice * 0.05} руб.</b>
                   </li>
                 </ul>
                 <button className="greenButton" onClick={onClickOrder} disabled={isLoading}>
