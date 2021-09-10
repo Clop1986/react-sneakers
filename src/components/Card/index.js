@@ -3,19 +3,17 @@ import ContentLoader from "react-content-loader";
 import AppContext from '../../context';
 import styles from './Card.module.scss';
 
-function Card({id, title, imageUrl, price, onFavorite, onPlus, favorited = false, loading = false}) {
+function Card({id, parentId, title, imageUrl, price, onFavorite, onPlus, loading = false}) {
 
-  const { isItemAdded } = React.useContext(AppContext);  
-  const [isFavorite, setIsFavorite] = React.useState(favorited);  
-  const obj ={id, parentId: id, title, imageUrl, price};  
+  const { isItemAdded, isFavoriteAdded } = React.useContext(AppContext);   
+  const obj ={id, parentId, title, imageUrl, price};  
 
   const onClickPlus = () => {
     onPlus(obj);    
   }
 
   const onClickFavorite = () => {  
-    onFavorite(obj);  
-    setIsFavorite(!isFavorite);
+    onFavorite(obj);     
   }
 
   return (    
@@ -39,7 +37,7 @@ function Card({id, title, imageUrl, price, onFavorite, onPlus, favorited = false
         <>
           {onFavorite && (
           <div className={styles.favorite} onClick={onClickFavorite}>
-            <img src={isFavorite ? "/img/heart-liked.svg" : "/img/heart-unliked.png"} alt="Закладки" />
+            <img src={isFavoriteAdded(parentId) ? '/img/heart-liked.svg' : '/img/heart-unliked.png'} alt="Закладки" title={isFavoriteAdded(parentId) ? 'Удалить из закладок' : 'Добавить в закладки'} />
           </div>)}
           <img width="133" height="122" src={imageUrl} alt="Кросовки" />
           <h5>{title}</h5>
@@ -48,7 +46,7 @@ function Card({id, title, imageUrl, price, onFavorite, onPlus, favorited = false
               <span>Цена:</span>
               <b>{price} руб.</b>
             </div>        
-            {onPlus && (<img src={isItemAdded(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Кнопка" className={styles.plus} onClick={onClickPlus} />)}
+            {onPlus && (<img src={isItemAdded(parentId) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Кнопка" className={styles.plus} onClick={onClickPlus} title={isItemAdded(parentId) ? 'Удалить из корзины' : 'Добавить в корзину'} />)}
           </div>
         </>
         )}      

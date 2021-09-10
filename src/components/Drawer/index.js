@@ -3,14 +3,16 @@ import axios from 'axios';
 import Info from '../Info';
 import { useCart } from '../../hooks/useCart';
 import styles from './Drawer.module.scss';
+import AppContext from '../../context';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Drawer({onClose, items = [], onRemove, opened}) {
+  const { isOrederComplete, setIsOrderComplete } = React.useContext(AppContext); 
   const { cartItems, setCartItems, totalPrice } = useCart();
   const [orderId, setOrderId] = React.useState(null);
-  const [isOrederComplete, setIsOrderComplete] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);  
+  //const [isOrederComplete, setIsOrderComplete] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);    
 
   const onClickOrder = async () => {
     try {
@@ -32,7 +34,7 @@ function Drawer({onClose, items = [], onRemove, opened}) {
       alert('Ошибка при создании заказа :(');
     }  
     setIsLoading(false); 
-  }
+  }  
 
   return (
     <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
