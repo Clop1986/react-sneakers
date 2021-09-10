@@ -10,8 +10,7 @@ const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 function Drawer({onClose, items = [], onRemove, opened}) {
   const { isOrederComplete, setIsOrderComplete } = React.useContext(AppContext); 
   const { cartItems, setCartItems, totalPrice } = useCart();
-  const [orderId, setOrderId] = React.useState(null);
-  //const [isOrederComplete, setIsOrderComplete] = React.useState(false);
+  const [orderId, setOrderId] = React.useState(null);  
   const [isLoading, setIsLoading] = React.useState(false);    
 
   const onClickOrder = async () => {
@@ -34,11 +33,11 @@ function Drawer({onClose, items = [], onRemove, opened}) {
       alert('Ошибка при создании заказа :(');
     }  
     setIsLoading(false); 
-  }  
+  }   
 
-  return (
-    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
-      <div className={`${styles.drawer} d-flex flex-column`}>
+  return (    
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`} onClick={onClose}>
+      <div className={`${styles.drawer} d-flex flex-column`} onClick={(e) => e.stopPropagation()}>
         <h2 className="mb-30 d-flex justify-between">
           Корзина
           <img src="/img/btn-remove.svg" alt="Close" className="removeBtn cu-p" onClick={onClose} />
@@ -53,7 +52,7 @@ function Drawer({onClose, items = [], onRemove, opened}) {
                       <div className="cartItemImg flex" style={{ backgroundImage: `url(${obj.imageUrl})` }}></div>
                       <div className="mr-20 flex">
                         <p className="mb-5">{obj.title}</p>
-                        <b>{obj.price} руб.</b>
+                        <b>{obj.price.toLocaleString()} руб.</b>
                       </div>
                       <img src="/img/btn-remove.svg" alt="Remove" className="removeBtn" onClick={() => onRemove(obj.id)} />
                     </div>
@@ -65,12 +64,12 @@ function Drawer({onClose, items = [], onRemove, opened}) {
                   <li className="d-flex">
                     <span>Итого:</span>
                     <div></div>
-                    <b>{totalPrice} руб.</b>
+                    <b>{totalPrice.toLocaleString()} руб.</b>
                   </li>
                   <li className="d-flex">
                     <span>Налог 5%:</span>
                     <div></div>
-                    <b>{totalPrice * 0.05} руб.</b>
+                    <b>{(totalPrice * 0.05).toLocaleString()} руб.</b>
                   </li>
                 </ul>
                 <button className="greenButton" onClick={onClickOrder} disabled={isLoading}>

@@ -44,7 +44,7 @@ function Card({id, parentId, title, imageUrl, price, onFavorite, onPlus, loading
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
               <span>Цена:</span>
-              <b>{price} руб.</b>
+              <b>{price.toLocaleString()} руб.</b>
             </div>        
             {onPlus && (<img src={isItemAdded(parentId) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Кнопка" className={styles.plus} onClick={onClickPlus} title={isItemAdded(parentId) ? 'Удалить из корзины' : 'Добавить в корзину'} />)}
           </div>

@@ -18,6 +18,7 @@ function Home({ items, searchValue, setSearchValue, onChangeSearchInput, onAddTo
 
   return (
     <div className="content p-40">
+      <img src="/img/banner.jpg" alt="Баннер" width="100%" className="mb-40" />
       <div className="d-flex align-center justify-between mb-40">
         <h1>{searchValue ? `Поиск по запросу: "${searchValue}"` : 'Все кроссовки'}</h1>
         <div className="search-block d-flex">
