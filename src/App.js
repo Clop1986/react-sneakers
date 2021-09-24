@@ -13,23 +13,24 @@ function App() {
   const [cartItems, setCartItems] =React.useState([]);
   const [favorites, setFavorites] =React.useState([]);
   const [cartOpened, setCartOpened] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = React.useState('');  
   const [isLoading, setIsLoading] = React.useState(true); 
-  const [isOrederComplete, setIsOrderComplete] = React.useState(false); 
+  const [isOrederComplete, setIsOrderComplete] = React.useState(false);   
 
   React.useEffect(() => {
     async function fetchData() {       
       try {
-        const [cartResponse, favoritesResponse, itemsResponse] = await Promise.all([
+        const [cartResponse, favoritesResponse, itemsResponse, orderResponse] = await Promise.all([
           axios.get('https://6129f810068adf001789b9b5.mockapi.io/cart'),
           axios.get('https://6129f810068adf001789b9b5.mockapi.io/favorites'),
           axios.get('https://6129f810068adf001789b9b5.mockapi.io/items'),
-        ]);
+          axios.get('https://6129f810068adf001789b9b5.mockapi.io/orders'),
+        ]);        
         
         setIsLoading(false);        
         setCartItems(cartResponse.data);
         setFavorites(favoritesResponse.data);
-        setItems(itemsResponse.data);
+        setItems(itemsResponse.data);            
       } catch (error) {
         alert('Ошибка при запросе данных ;(');
         console.error(error);
@@ -118,7 +119,7 @@ function App() {
 
   return (
     <AppContext.Provider value={{items, cartItems, favorites, isItemAdded, onAddToFavorite, onAddToCart, setCartOpened, setCartItems, isFavoriteAdded, isOrederComplete, setIsOrderComplete}}>
-      <div className="wrapper clear">   
+      <div className="wrapper clear d-flex flex-column">   
         <Drawer items={cartItems} onClose={() => setCartOpened(false)} onRemove={onRemoveItem} opened={cartOpened} />         
         <Header onClickCart={isOrderCompleteHide} />
         <Route path="/" exact>

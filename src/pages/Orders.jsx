@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Card from '../components/Card';
 
@@ -7,7 +8,7 @@ function Orders() {
   const [isLoading, setIsLoading] = React.useState(true);
   React.useEffect(() => {
     (async () => {
-      try {
+      try {              
         const { data } = await axios.get('https://6129f810068adf001789b9b5.mockapi.io/orders');
         setOrders(data.reduce((prev, obj) => [...prev, ...obj.items], []));
         setIsLoading(false);
@@ -16,7 +17,7 @@ function Orders() {
         console.log(error);
       }
     })();
-  }, []);
+  }, []);  
 
   return (
     <div className="content p-40">
@@ -24,7 +25,7 @@ function Orders() {
         <h1>Мои заказы</h1>        
       </div>
       <div className="d-flex flex-wrap">                 
-        {(isLoading ? [...Array(8)] : orders).map((item, index) => (
+        {(isLoading ? [...Array(4)] : orders).map((item, index) => (
           <Card 
             key={index}                  
             loading={isLoading}

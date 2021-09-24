@@ -15,6 +15,7 @@ body {
   border-radius: 20px;
   max-width: 1080px;
   margin: 50px auto;  
+  min-height: calc(100vh - 100px);
 }
 
 header {  
@@ -108,7 +109,7 @@ header {
   background: #9dd558;
   border-radius: 18px;
   border: 0;
-  color: #ffffff;
+  color: #ffffff !important;
   font-size: 16px;
   font-weight: 500;
   cursor: pointer;
